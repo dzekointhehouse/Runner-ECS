@@ -10,6 +10,6 @@ namespace RunnerECS.Components
     public class ScoreComponent : IEngineComponent
     {
         public SpriteFont Font { get; set; }
-        public string Score { get; set; }
+        public double Score { get; set; }
     }
 }

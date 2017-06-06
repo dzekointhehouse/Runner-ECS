@@ -75,7 +75,7 @@
     <Compile Include="Systems\InputSystem.cs" />
     <Compile Include="Systems\PhysicsSystem.cs" />
     <Compile Include="Systems\RenderingSystem.cs" />
-    <Compile Include="Systems\ScoreSystem.cs" />
+    <Compile Include="Systems\TextSystem.cs" />
     <Compile Include="Systems\SpawnSystem.cs" />
   </ItemGroup>
   <ItemGroup>

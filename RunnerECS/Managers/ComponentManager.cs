@@ -67,6 +67,10 @@ namespace RunnerECS.Content
             return Components[typeof(TComponentType)];
         }
 
+        public void ClearComponents()
+        {
+            Components.Clear();
+        }
 
     }
 }

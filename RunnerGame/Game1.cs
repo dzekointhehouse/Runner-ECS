@@ -15,17 +15,26 @@ namespace RunnerGame
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        RenderingSystem renderingSystem = new RenderingSystem();
-        PhysicsSystem physicsSystem = new PhysicsSystem();
-        CollisionDetectionSystem collisionDetectionSystem = new CollisionDetectionSystem();
-        InputSystem inputSystem = new InputSystem();
-        SpawnSystem spawnSystem = new SpawnSystem();
-        ScoreSystem scoreSystem = new ScoreSystem();
+        private Texture2D background;
+
+        private RenderingSystem renderingSystem;
+        private PhysicsSystem physicsSystem;
+        private CollisionDetectionSystem collisionDetectionSystem;
+        InputSystem inputSystem;
+        SpawnSystem spawnSystem;
+        TextSystem _textSystem;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            renderingSystem = new RenderingSystem();
+            physicsSystem = new PhysicsSystem();
+            collisionDetectionSystem = new CollisionDetectionSystem();
+            inputSystem = new InputSystem();
+            spawnSystem = new SpawnSystem();
+            _textSystem = new TextSystem();
         }
 
         /// <summary>
@@ -53,32 +62,8 @@ namespace RunnerGame
             AssetManager.Get().GameSceneViewport = graphics.GraphicsDevice.Viewport;
 
             // TODO: use this.Content to load your game content here
-            var playerTexture = Content.Load<Texture2D>("runner");
-            var blockTexture = Content.Load<Texture2D>("teo");
-            spawnSystem.LoadContent(Content);
-
-            var playerId = ComponentManager.Get().NewEntity();
-
-            ComponentManager.Get().AddComponentToEntity(new SpriteComponent() { Texture = playerTexture }, playerId);
-            ComponentManager.Get().AddComponentToEntity(new PositionComponent() { Position = new Vector2(20, graphics.GraphicsDevice.Viewport.Height - playerTexture.Height) }, playerId);
-            ComponentManager.Get().AddComponentToEntity(new InputComponent() { JumpKey = Keys.Up }, playerId);
-            ComponentManager.Get().AddComponentToEntity(new MovementComponent(), playerId);
-            ComponentManager.Get().AddComponentToEntity(new CollisionComponent(), playerId);
-            ComponentManager.Get().AddComponentToEntity(new PlayerComponent(), playerId);
-            ComponentManager.Get().AddComponentToEntity(new ScoreComponent() {Font = Content.Load<SpriteFont>("font")
-            }, playerId);
-
-
-
-
-            var block = ComponentManager.Get().NewEntity();
-
-            ComponentManager.Get().AddComponentToEntity(new SpriteComponent() { Texture = blockTexture }, block);
-            ComponentManager.Get().AddComponentToEntity(new PositionComponent() { Position = new Vector2(AssetManager.Get().GameSceneViewport.Width + 50, AssetManager.Get().GameSceneViewport.Height - blockTexture.Height) }, block);
-            ComponentManager.Get().AddComponentToEntity(new MovementComponent(), block);
-            ComponentManager.Get().AddComponentToEntity(new CollisionComponent(), block);
-            ComponentManager.Get().AddComponentToEntity(new SpawnComponent(), block);
-
+            background = Content.Load<Texture2D>("background");
+            CreateEntities();
         }
 
         /// <summary>
@@ -106,8 +91,14 @@ namespace RunnerGame
             spawnSystem.Update(gameTime);
             collisionDetectionSystem.Update(gameTime);
 
+            if (collisionDetectionSystem.CollisionOccured)
+            {
+                ResetGame();
+            }
+
             base.Update(gameTime);
         }
+
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -126,10 +117,60 @@ namespace RunnerGame
 
             }
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            spriteBatch.Draw(background, AssetManager.Get().GameSceneViewport.Bounds, Color.White);
+            spriteBatch.End();
+
+            // TODO: Entity Component Systems
             renderingSystem.Draw(gameTime, spriteBatch);
-            scoreSystem.Draw(gameTime, spriteBatch);
+            _textSystem.Draw(gameTime, spriteBatch);
             base.Draw(gameTime);
+        }
+
+
+        private void ResetGame()
+        {
+            ComponentManager.Get().ClearComponents();
+
+            renderingSystem = new RenderingSystem();
+            physicsSystem = new PhysicsSystem();
+            collisionDetectionSystem = new CollisionDetectionSystem();
+            inputSystem = new InputSystem();
+            spawnSystem = new SpawnSystem();
+            _textSystem = new TextSystem();
+            CreateEntities();
+        }
+
+        private void CreateEntities()
+        {
+            var playerTexture = Content.Load<Texture2D>("runner");
+            var blockTexture = Content.Load<Texture2D>("teo");
+            spawnSystem.LoadContent(Content);
+
+            var playerId = ComponentManager.Get().NewEntity();
+
+            ComponentManager.Get().AddComponentToEntity(new SpriteComponent() { Texture = playerTexture }, playerId);
+            ComponentManager.Get().AddComponentToEntity(new PositionComponent() { Position = new Vector2(20, graphics.GraphicsDevice.Viewport.Height - playerTexture.Height) }, playerId);
+            ComponentManager.Get().AddComponentToEntity(new InputComponent() { JumpKey = Keys.Up }, playerId);
+            ComponentManager.Get().AddComponentToEntity(new MovementComponent(), playerId);
+            ComponentManager.Get().AddComponentToEntity(new CollisionComponent(), playerId);
+            ComponentManager.Get().AddComponentToEntity(new PlayerComponent(), playerId);
+            ComponentManager.Get().AddComponentToEntity(new ScoreComponent()
+            {
+                Font = Content.Load<SpriteFont>("font")
+            }, playerId);
+
+
+
+
+            var block = ComponentManager.Get().NewEntity();
+
+            ComponentManager.Get().AddComponentToEntity(new SpriteComponent() { Texture = blockTexture }, block);
+            ComponentManager.Get().AddComponentToEntity(new PositionComponent() { Position = new Vector2(AssetManager.Get().GameSceneViewport.Width + 50, AssetManager.Get().GameSceneViewport.Height - blockTexture.Height) }, block);
+            ComponentManager.Get().AddComponentToEntity(new MovementComponent(), block);
+            ComponentManager.Get().AddComponentToEntity(new CollisionComponent(), block);
+            ComponentManager.Get().AddComponentToEntity(new SpawnComponent(), block);
+
         }
     }
 }

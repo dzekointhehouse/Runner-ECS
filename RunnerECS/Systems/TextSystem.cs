@@ -10,7 +10,7 @@ using RunnerECS.Content;
 
 namespace RunnerECS.Systems
 {
-    public class ScoreSystem
+    public class TextSystem
     {
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
@@ -22,8 +22,8 @@ namespace RunnerECS.Systems
             {
                 var score = scoreComponent.Value as ScoreComponent;
 
-                score.Score = ((int)gameTime.TotalGameTime.TotalSeconds).ToString();
-                spriteBatch.DrawString(score.Font, score.Score, new Vector2(20, 20), Color.White);
+                score.Score += gameTime.ElapsedGameTime.TotalSeconds;
+                spriteBatch.DrawString(score.Font, ((int)score.Score).ToString(), new Vector2(20, 20), Color.White);
             }
             spriteBatch.End();
         }
