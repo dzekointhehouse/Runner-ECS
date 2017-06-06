@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunnerECS", "RunnerECS\RunnerECS.csproj", "{F8D0C58C-A882-4934-8C2D-3BAB44415CBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunnerGame", "RunnerGame\RunnerGame.csproj", "{5307210A-5B7B-4126-8DD8-697B9CD32FBC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F8D0C58C-A882-4934-8C2D-3BAB44415CBE}.Debug|x86.ActiveCfg = Debug|x86
+		{F8D0C58C-A882-4934-8C2D-3BAB44415CBE}.Debug|x86.Build.0 = Debug|x86
+		{F8D0C58C-A882-4934-8C2D-3BAB44415CBE}.Release|x86.ActiveCfg = Release|x86
+		{F8D0C58C-A882-4934-8C2D-3BAB44415CBE}.Release|x86.Build.0 = Release|x86
+		{5307210A-5B7B-4126-8DD8-697B9CD32FBC}.Debug|x86.ActiveCfg = Debug|x86
+		{5307210A-5B7B-4126-8DD8-697B9CD32FBC}.Debug|x86.Build.0 = Debug|x86
+		{5307210A-5B7B-4126-8DD8-697B9CD32FBC}.Release|x86.ActiveCfg = Release|x86
+		{5307210A-5B7B-4126-8DD8-697B9CD32FBC}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
