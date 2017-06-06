@@ -44,6 +44,12 @@
 /processorParam:TextureFormat=Compressed
 /build:font.spritefont
 
+#begin jaws.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:jaws.mp3
+
 #begin background.jpg
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -16,7 +16,7 @@ namespace RunnerECS
         {
             graphics = new GraphicsDeviceManager(this)
             {
-                IsFullScreen = true,
+                IsFullScreen = false,
             };
 
             Content.RootDirectory = "Content";

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using RunnerECS.Components;
 using RunnerECS.Content;
 using RunnerECS.Managers;
@@ -85,6 +86,10 @@ namespace RunnerGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            if (MediaPlayer.State == MediaState.Stopped)
+            {
+                MediaPlayer.Play(song);
+            }
             // TODO: Add your update logic here
             inputSystem.Update(gameTime);
             physicsSystem.Update(gameTime);
