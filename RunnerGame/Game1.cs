@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using RunnerECS.Components;
 using RunnerECS.Content;
 using RunnerECS.Managers;
@@ -15,6 +16,8 @@ namespace RunnerGame
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        private Song song;
+
         RenderingSystem renderingSystem = new RenderingSystem();
         PhysicsSystem physicsSystem = new PhysicsSystem();
         CollisionDetectionSystem collisionDetectionSystem = new CollisionDetectionSystem();
@@ -24,7 +27,10 @@ namespace RunnerGame
 
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
+            graphics = new GraphicsDeviceManager(this)
+            {
+                IsFullScreen = true,
+            };
             Content.RootDirectory = "Content";
         }
 
@@ -55,6 +61,8 @@ namespace RunnerGame
             // TODO: use this.Content to load your game content here
             var playerTexture = Content.Load<Texture2D>("runner");
             var blockTexture = Content.Load<Texture2D>("teo");
+            song = Content.Load<Song>("jaws");
+         
             spawnSystem.LoadContent(Content);
 
             var playerId = ComponentManager.Get().NewEntity();
@@ -100,6 +108,10 @@ namespace RunnerGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            if (MediaPlayer.State == MediaState.Stopped)
+            {
+                MediaPlayer.Play(song);
+            }
             // TODO: Add your update logic here
             inputSystem.Update(gameTime);
             physicsSystem.Update(gameTime);
