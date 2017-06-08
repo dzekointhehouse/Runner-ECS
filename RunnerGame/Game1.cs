@@ -17,7 +17,11 @@ namespace RunnerGame
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private Texture2D background;
+        private Song song;
+        private double count = 5;
+        private SpriteFont font;
 
+        // TODO: EntityComponentSystems
         private RenderingSystem renderingSystem;
         private PhysicsSystem physicsSystem;
         private CollisionDetectionSystem collisionDetectionSystem;
@@ -64,6 +68,9 @@ namespace RunnerGame
 
             // TODO: use this.Content to load your game content here
             background = Content.Load<Texture2D>("background");
+            song = Content.Load<Song>("jaws");
+            font = Content.Load<SpriteFont>("font");
+
             CreateEntities();
         }
 
@@ -90,16 +97,27 @@ namespace RunnerGame
             {
                 MediaPlayer.Play(song);
             }
-            // TODO: Add your update logic here
-            inputSystem.Update(gameTime);
-            physicsSystem.Update(gameTime);
-            spawnSystem.Update(gameTime);
-            collisionDetectionSystem.Update(gameTime);
 
             if (collisionDetectionSystem.CollisionOccured)
             {
-                ResetGame();
+                if (count <= 0)
+                {
+                    ResetGame();
+                    count = 5;
+                }
+                count -= gameTime.ElapsedGameTime.TotalSeconds;
             }
+            else
+            {
+                // TODO: Add your update logic here
+                inputSystem.Update(gameTime);
+                physicsSystem.Update(gameTime);
+                spawnSystem.Update(gameTime);
+                collisionDetectionSystem.Update(gameTime);
+            }
+
+
+
 
             base.Update(gameTime);
         }
@@ -111,10 +129,20 @@ namespace RunnerGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            spriteBatch.Begin();
+            spriteBatch.Draw(background, AssetManager.Get().GameSceneViewport.Bounds, Color.White);
+
             if (collisionDetectionSystem.CollisionOccured)
             {
-                GraphicsDevice.Clear(Color.Red);
+                // GraphicsDevice.Clear(Color.Red);
+                if (count >= 0)
+                {
+                    var message = "GAME OVER";
+                    var height = AssetManager.Get().GameSceneViewport.Height;
+                    var width = AssetManager.Get().GameSceneViewport.Width;
 
+                    spriteBatch.DrawString(font, message, new Vector2((width - font.MeasureString(message).X) * 0.5f, (height - font.MeasureString(message).Y) * 0.5f), Color.White);
+                }
             }
             else
             {
@@ -122,8 +150,6 @@ namespace RunnerGame
 
             }
 
-            spriteBatch.Begin();
-            spriteBatch.Draw(background, AssetManager.Get().GameSceneViewport.Bounds, Color.White);
             spriteBatch.End();
 
             // TODO: Entity Component Systems
@@ -162,7 +188,7 @@ namespace RunnerGame
             ComponentManager.Get().AddComponentToEntity(new PlayerComponent(), playerId);
             ComponentManager.Get().AddComponentToEntity(new ScoreComponent()
             {
-                Font = Content.Load<SpriteFont>("font")
+                Font = font
             }, playerId);
 
 

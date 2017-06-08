@@ -30,15 +30,6 @@ namespace RunnerECS.Systems
             {
                 var spawn = spawnComponent.Value as SpawnComponent;
 
-                //if (random.NextDouble() < spawn.SpawnProbability)
-                //{
-                //    //var block = ComponentManager.Get().NewEntity();
-
-                //    //ComponentManager.Get().AddComponentToEntity(new SpriteComponent() { Texture = blockTexture }, block);
-                //    //ComponentManager.Get().AddComponentToEntity(new PositionComponent() { Position = new Vector2(AssetManager.Get().GameSceneViewport.Width + 50, AssetManager.Get().GameSceneViewport.Height - blockTexture.Height) }, block);
-                //    //ComponentManager.Get().AddComponentToEntity(new MovementComponent(), block);
-                //}
-
                 var position = ComponentManager.Get().EntityComponent<PositionComponent>(spawnComponent.Key);
                 var sprite = ComponentManager.Get().EntityComponent<SpriteComponent>(spawnComponent.Key);
 
