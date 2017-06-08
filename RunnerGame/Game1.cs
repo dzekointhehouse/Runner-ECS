@@ -25,9 +25,10 @@ namespace RunnerGame
         private RenderingSystem renderingSystem;
         private PhysicsSystem physicsSystem;
         private CollisionDetectionSystem collisionDetectionSystem;
-        InputSystem inputSystem;
-        SpawnSystem spawnSystem;
-        TextSystem _textSystem;
+        private InputSystem inputSystem;
+        private SpawnSystem spawnSystem;
+        private TextSystem textSystem;
+        private ScoreSystem scoreSystem;
 
         public Game1()
         {
@@ -39,7 +40,8 @@ namespace RunnerGame
             collisionDetectionSystem = new CollisionDetectionSystem();
             inputSystem = new InputSystem();
             spawnSystem = new SpawnSystem();
-            _textSystem = new TextSystem();
+            textSystem = new TextSystem();
+            scoreSystem = new ScoreSystem();
         }
 
         /// <summary>
@@ -114,6 +116,7 @@ namespace RunnerGame
                 physicsSystem.Update(gameTime);
                 spawnSystem.Update(gameTime);
                 collisionDetectionSystem.Update(gameTime);
+                scoreSystem.Update(gameTime);
             }
 
 
@@ -137,7 +140,7 @@ namespace RunnerGame
                 // GraphicsDevice.Clear(Color.Red);
                 if (count >= 0)
                 {
-                    var message = "GAME OVER";
+                    var message = "GAME OVER \nyou came to close!";
                     var height = AssetManager.Get().GameSceneViewport.Height;
                     var width = AssetManager.Get().GameSceneViewport.Width;
 
@@ -154,7 +157,7 @@ namespace RunnerGame
 
             // TODO: Entity Component Systems
             renderingSystem.Draw(gameTime, spriteBatch);
-            _textSystem.Draw(gameTime, spriteBatch);
+            textSystem.Draw(gameTime, spriteBatch);
             base.Draw(gameTime);
         }
 
@@ -168,7 +171,7 @@ namespace RunnerGame
             collisionDetectionSystem = new CollisionDetectionSystem();
             inputSystem = new InputSystem();
             spawnSystem = new SpawnSystem();
-            _textSystem = new TextSystem();
+            textSystem = new TextSystem();
             CreateEntities();
         }
 
