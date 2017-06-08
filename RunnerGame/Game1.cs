@@ -105,6 +105,9 @@ namespace RunnerGame
                 if (count <= 0)
                 {
                     ResetGame();
+                    MediaPlayer.Stop();
+                    MediaPlayer.Play(song);
+
                     count = 5;
                 }
                 count -= gameTime.ElapsedGameTime.TotalSeconds;
